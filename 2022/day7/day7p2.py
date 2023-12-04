@@ -1,5 +1,5 @@
 lines = []
-with open("test.txt", "r") as file:
+with open("input.txt", "r") as file:
     while line := file.readline():
         lines.append(line.strip())
         
@@ -21,19 +21,17 @@ for i in range(1, len(lines)):
             elif lines[j][0].isdigit():
                 size += int(lines[j].split()[0])
         pwd = "".join(path)
+        # print(pwd)
         for key in d.keys():
             if key in pwd:
                 d[key] += size
         d[pwd] = size
-    print(path, d)
-
-
-
-print(d)
-total = 0
-for dir in d:
-    if d[dir] <= 100000:
-        total += d[dir]
-print(total)
-
-#1266594
+# print(d)
+remaining = 70000000 - d.get("/", 0)
+goal = 30000000 - remaining
+print(goal)
+options = []
+for dir in d.keys():
+    if d[dir] >= goal:
+        options.append(d[dir])
+print(min(options))
