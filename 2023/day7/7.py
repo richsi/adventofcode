@@ -40,13 +40,6 @@ def classify_hand(lines):
 
 
 #[['32T3K', '765'], ['T55J5', '684'], ['KK677', '28'], ['KTJJT', '220'], ['QQQJA', '483']]
-five_of_a_kind = []
-four_of_a_kind = []
-full_house = []
-three_of_a_kind = []
-two_pair = []
-one_pair = []
-high_card = []
 five_of_a_kind, four_of_a_kind, full_house, three_of_a_kind, two_pair, one_pair, high_card = classify_hand(lines)
 
 def sort_hands_by_card_order(hands, card_order):
