@@ -1,39 +1,29 @@
-import numpy as np
+import functools
+import math
 
-lines = [line.strip() for line in open("input.txt", "r").read().split("\n") if line != ""]
-instruction = lines.pop(0)
-lines = [line.split("=") for line in lines]
+with open("input.txt", "r") as f:
+    instructions = f.readline().strip("\n")
+    f.readline()
+    D = {}
+    starting_nodes = []
+    while line := f.readline().strip("\n"):
+        start, dests = line.split("=")[0].strip(), line.split("=")[1].strip("() ").split(", ")
+        D[start] = {"L": dests[0], "R": dests[1]}
+        if start[-1] == "A":
+            starting_nodes.append(start)
 
-d= {}
-for line in lines:
-    line[0] = line[0].strip(" ")
-    line[1] = line[1].strip(" () ").split(",")
-    d[line[0]] = line[1]
+combined_steps = []
+for node in starting_nodes:
+    steps = 0
+    while True:
+        for inst in instructions:
+            steps += 1
+            print(D[node][inst], inst)
+            node = D[node][inst]
+            if node[-1] == "Z":
+                break
+        if node[-1] == "Z":
+            combined_steps.append(steps)
+            break
 
-
-def navigate(inst, d, start):
-    if inst == "R":
-        return d[start][1].strip()
-    else:
-        return d[start][0].strip()
-
-count = 0
-steps = 0
-start = "AAA"
-
-
-while True:
-    print(start, count, instruction[count])
-    start = navigate(instruction[count], d, start)
-    steps += 1
-
-    if start == "ZZZ":
-        print(steps, start)
-        break
-
-    if count == len(instruction) -1 :
-        count = 0
-        continue
-
-    count += 1
-
+print(functools.reduce(lambda x,y: (x*y) // math.gcd(x, y), combined_steps))
